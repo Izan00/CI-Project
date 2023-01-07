@@ -1,0 +1,39 @@
+input_size: 9
+output_size: 4
+
+max_neurons: 16
+max_weight_value: 30.0
+min_weight_value: -30.0
+genetic_model: False
+
+genetic_model_precision: 0.1
+
+num_generations: 100
+
+sol_per_pop: 50
+
+num_parents_mating: 25
+
+parent_selection_type: 'tournament'  # 'tournament','rws','rank','random','sss', 'sus'
+
+keep_parents: 10
+
+K_tournament: 2
+
+keep_elitism: 10
+crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'
+
+crossover_probability: 1
+mutation_type: 'random' # 'random','swap','inversion','scramble'
+
+mutation_probability: 0.1
+mutation_by_replacement: False
+
+allow_duplicate_genes: True
+
+verbose: 1
+
+time_delay: 0
+
+save_solutions: True
+save_best_solutions: True
