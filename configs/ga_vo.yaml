@@ -1,14 +1,17 @@
-input_size: 9
-output_size: 4
+input_size: 5
+output_size: 2
 
+bit_encoding_type: 'binary' # 'binary' 'gray'
 max_neurons: 16
-max_weight_value: 30.0
-min_weight_value: -30.0
+max_weight_value: 10.0
+min_weight_value: -10.0
 genetic_model: False
 
 genetic_model_precision: 0.1
 
-num_generations: 100
+num_generations: 10
+max_fitness_stop_criteria: 500
+fitness_saturate_stop_criteria: 100
 
 sol_per_pop: 50
 
@@ -18,7 +21,7 @@ parent_selection_type: 'tournament'  # 'tournament','rws','rank','random','sss',
 
 keep_parents: 10
 
-K_tournament: 2
+k_tournament: 2
 
 keep_elitism: 10
 crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'

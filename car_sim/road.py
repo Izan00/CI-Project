@@ -1,9 +1,9 @@
-from config_variables import *
+from car_sim.config_variables import *
 import pygame as py
 import numpy as np
 from scipy import interpolate
 from math import *
-from vect2d import *
+from car_sim.vect2d import *
 from random import random, seed
 
 class Road:

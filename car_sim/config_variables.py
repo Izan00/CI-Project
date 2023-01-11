@@ -4,34 +4,38 @@ py.font.init()
 
 #=================== General constants ==================================
 FPS = 100
-WIN_WIDTH = 1800
-WIN_HEIGHT = 1000
+WIN_WIDTH = 1000
+WIN_HEIGHT = 500
 STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-100)
 SCORE_VEL_MULTIPLIER = 0.00                     #bonus for faster cars
 BAD_GENOME_TRESHOLD = 200                       #if a car is too far behind it is removed
 
-INPUT_NEURONS = 9
-OUTPUT_NEURONS = 4
+INPUT_NEURONS = 5
+OUTPUT_NEURONS = 2
 
 #=================== Car Specs ==================================
 
-CAR_DBG = False
+CAR_DBG = True
 FRICTION  = -0.1
 MAX_VEL = 10
 MAX_VEL_REDUCTION = 1              #at the start reduce maximum speed
 ACC_STRENGHT = 0.2
 BRAKE_STREGHT = 1
-TURN_VEL = 2
+TURN_VEL = 1
 SENSOR_DISTANCE = 200
 ACTIVATION_TRESHOLD = 0.5
+
+SENSORS_INITIAL_ANGLE = -50
+SENSORS_SEPARATION_ANGLE = 35
+SENSORS_NUMBER_BEAMS = 4
 
 #=================== Road Specs ==================================
 
 ROAD_DBG = False
 MAX_ANGLE = 1
-MAX_DEVIATION = 300
+MAX_DEVIATION = 200
 SPACING = 200
-NUM_POINTS  = 15                #number of points for each segment
+NUM_POINTS = 15                #number of points for each segment
 SAFE_SPACE = SPACING + 50       #buffer space above the screen
 ROAD_WIDTH = 200
 
@@ -65,10 +69,8 @@ STAT_FONT = py.font.SysFont("comicsans", 50)
 GEN = 0
 
 #enumerations
-ACC = 0
-BRAKE = 1
-TURN_LEFT = 2
-TURN_RIGHT = 3
+ACC_BRAKE = 0
+TURN = 1
 
 INPUT = 0
 MIDDLE = 1

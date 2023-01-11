@@ -1,11 +1,11 @@
-from config_variables import *
+from car_sim.config_variables import *
 import pygame as py
 import os
 from math import *
 from random import random
-from road import *
+from car_sim.road import *
 import numpy as np
-from vect2d import vect2d
+from car_sim.vect2d import vect2d
 
 
 class Car:
@@ -27,8 +27,8 @@ class Car:
         img_names = ["yellow_car.png", "red_car.png", "blu_car.png", "green_car.png"]
         name = img_names[floor(random()*len(img_names))%len(img_names)]                 #prendi a caso una di queste immagini
 
-        self.img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", name)).convert_alpha(), (120,69)), -90)
-        self.brake_img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", "brakes.png")).convert_alpha(), (120,69)), -90)
+        self.img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("car_sim/imgs", name)).convert_alpha(), (120, 69)), -90)
+        self.brake_img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("car_sim/imgs", "brakes.png")).convert_alpha(), (120, 69)), -90)
 
     def detectCollision(self, road):
         #get mask
@@ -47,7 +47,7 @@ class Car:
 
     def getInputs(self, world, road):         #win serve per disegnare i sensori se DBG = True
         sensors = []
-        for k in range(8):
+        for k in range(SENSORS_NUMBER_BEAMS):
             sensors.append(SENSOR_DISTANCE)
         sensorsEquations = getSensorEquations(self, world)
 
@@ -61,7 +61,7 @@ class Car:
 
         if CAR_DBG:
             for k,s in enumerate(sensors):
-                omega = radians(self.rot + 45*k)
+                omega = radians(self.rot + SENSORS_INITIAL_ANGLE+SENSORS_SEPARATION_ANGLE*k)
                 dx = s * sin(omega)
                 dy = - s * cos(omega)
                 #disegna intersezioni dei sensori
@@ -78,6 +78,7 @@ class Car:
     def move(self, road, t):
         self.acc = FRICTION
 
+        '''
         if decodeCommand(self.commands, ACC):
             self.acc = ACC_STRENGHT
         if decodeCommand(self.commands, BRAKE):
@@ -86,13 +87,17 @@ class Car:
             self.rot -= TURN_VEL
         if decodeCommand(self.commands, TURN_RIGHT):
             self.rot += TURN_VEL
+        '''
+
+        self.acc = ACC_STRENGHT*self.commands[ACC_BRAKE]
+        self.rot += TURN_VEL*self.commands[TURN]
 
         timeBuffer = 500
         if MAX_VEL_REDUCTION == 1 or t >= timeBuffer:
             max_vel_local = MAX_VEL
         else:
             ratio = MAX_VEL_REDUCTION + (1 - MAX_VEL_REDUCTION)*(t/timeBuffer)
-            max_vel_local = MAX_VEL *ratio
+            max_vel_local = MAX_VEL * ratio
 
         self.vel += self.acc
         if self.vel > max_vel_local:
@@ -112,7 +117,7 @@ class Car:
         new_rect = rotated_img.get_rect(center = screen_position)
         world.win.blit(rotated_img, new_rect.topleft)
 
-        if decodeCommand(self.commands, BRAKE):
+        if self.commands[ACC_BRAKE] < 0:
             rotated_img = py.transform.rotate(self.brake_img, -self.rot)
             new_rect = rotated_img.get_rect(center = screen_position)
             world.win.blit(rotated_img, new_rect.topleft)
@@ -121,13 +126,13 @@ class Car:
 
 def getSensorEquations(self, world):       #restituisce le equazioni delle rette (in variabile y) della macchina in ordine [verticale, diagonale crescente, orizzontale, diagonale decrescente]
     eq = []
-    for i in range(4):
-        omega = radians(self.rot + 45*i)
+    for i in range(SENSORS_NUMBER_BEAMS):
+        omega = radians(self.rot + SENSORS_INITIAL_ANGLE+SENSORS_SEPARATION_ANGLE*i)
         dx = SENSOR_DISTANCE * sin(omega)
         dy = - SENSOR_DISTANCE * cos(omega)
 
         if CAR_DBG:             #disegna linee dei sensori
-            py.draw.lines(world.win, GREEN, False, [world.getScreenCoords(self.x+dx, self.y+dy), world.getScreenCoords(self.x-dx, self.y-dy)], 2)
+            py.draw.lines(world.win, GREEN, False, [world.getScreenCoords(self.x+dx, self.y+dy), world.getScreenCoords(self.x, self.y)], 2)
 
         coef = getSegmentEquation(self, vect2d(x = self.x+dx, y = self.y+dy))
         eq.append(coef)
@@ -143,7 +148,6 @@ def getSegmentEquation(p, q):          #equazioni in variabile y tra due punti (
 
 def getDistance(world, car, sensors, sensorsEquations, p, q):     #dato il segmento (m,q) calcolo la distanza e la metto nel sensore corrispondente
     (a2,b2,c2) = getSegmentEquation(p, q)
-
     for i,(a1,b1,c1) in enumerate(sensorsEquations):
         #get intersection between sensor and segment
 
@@ -162,33 +166,14 @@ def getDistance(world, car, sensors, sensorsEquations, p, q):     #dato il segme
         dist = ((car.x - x)**2 + (car.y - y)**2)**0.5
 
         #inserisci nel sensore nel verso giusto
-        omega = car.rot +45*i                               #angolo della retta del sensore (e del suo opposto)
+        omega = car.rot + SENSORS_INITIAL_ANGLE+SENSORS_SEPARATION_ANGLE*i                               #angolo della retta del sensore (e del suo opposto)
         alpha = 90- degrees(atan2(car.y - y, x-car.x))     #angolo rispetto alla verticale (come car.rot)
         if cos(alpha)*cos(omega)*100 + sin(alpha)*sin(omega)*100 > 0:
             index = i
         else:
             index = i + 4
-
-        if dist < sensors[index]:
-            sensors[index] = dist
-
-def decodeCommand(commands, type):
-    if commands[type] > ACTIVATION_TRESHOLD:
-        if type == ACC and commands[type] > commands[BRAKE]:
-            return True
-        elif type == BRAKE and commands[type] > commands[ACC]:
-            return True
-        elif type == TURN_LEFT and commands[type] > commands[TURN_RIGHT]:
-            return True
-        elif type == TURN_RIGHT and commands[type] > commands[TURN_LEFT]:
-            return True
-    return False
-
-
-
-
-
-
-
+        #rev
+        if dist < sensors[i]:
+            sensors[i] = dist
 
     #----

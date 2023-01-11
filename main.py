@@ -3,7 +3,7 @@ import numpy as np
 import time
 import math
 import sklearn
-import pygad
+from pygad import pygad
 from ga import generate_ga
 import yaml
 from sklearn.exceptions import ConvergenceWarning
@@ -30,7 +30,11 @@ if __name__ == '__main__':
 
     exec_time = time.time() - start
 
-    solution, solution_fitness, solution_idx = ga_instance.best_solution()
+    solution_values = ga_instance.best_solutions[-1]
+    solution=solution_values[0]
+    solution_fitness=solution_values[1]
+    solution_idx=solution_values[2]
+
     #ga_mlp=generate_network(solution);
 
     print('\n')
