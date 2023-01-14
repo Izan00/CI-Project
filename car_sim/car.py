@@ -169,11 +169,7 @@ def getDistance(world, car, sensors, sensorsEquations, p, q):     #dato il segme
         omega = car.rot + SENSORS_INITIAL_ANGLE+SENSORS_SEPARATION_ANGLE*i                               #angolo della retta del sensore (e del suo opposto)
         alpha = 90- degrees(atan2(car.y - y, x-car.x))     #angolo rispetto alla verticale (come car.rot)
         if cos(alpha)*cos(omega)*100 + sin(alpha)*sin(omega)*100 > 0:
-            index = i
-        else:
-            index = i + 4
-        #rev
-        if dist < sensors[i]:
-            sensors[i] = dist
+            if dist < sensors[i]:
+                sensors[i] = dist
 
     #----
