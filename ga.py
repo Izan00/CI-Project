@@ -1,9 +1,8 @@
 import numpy as np
 from pygad import pygad
-from sklearn.neural_network import MLPRegressor as MLP
 import math
 import time
-
+from scipy.special import expit
 from car_sim.car import Car
 from car_sim.road import Road
 from car_sim.world import World
@@ -19,11 +18,44 @@ bg.fill(GRAY)
 ----------------------------
 '''
 
+class MLP:
+    def __init__(self, coefs_h, intercepts_h, coefs_o, intercepts_o):
+        self.coefs_h = coefs_h
+        self.intercepts_h = intercepts_h
+        self.coefs_o = coefs_o
+        self.intercepts_o = intercepts_o
+
+        ''' MLP weights/bias distribution 
+        (input, nn_n) -> in-hl w
+        (nn_n,)       -> hl b
+        (nn_n, out)   -> hl-out w
+        (out,)        -> out b
+        '''
+
+    def predict(self, nn_input):
+        global ga_config
+        h1 = np.dot(self.coefs_h.T, nn_input.T)+self.intercepts_h.reshape(self.intercepts_h.shape[0], -1)
+        if ga_config['hidden_layer_activation']=='identity':
+            a1 = h1
+        elif ga_config['hidden_layer_activation'] == 'logistic':
+            a1 = expit(h1)
+        elif ga_config['hidden_layer_activation'] == 'tanh':
+            a1 = np.tanh(h1)
+        ho = np.dot(a1.T, self.coefs_o)+self.intercepts_o.reshape(-1, self.intercepts_o.shape[0])
+
+        if ga_config['output_layer_activation'] == 'identity':
+            ao = ho
+        elif ga_config['output_layer_activation'] == 'logistic':
+            ao = expit(ho)
+        elif ga_config['output_layer_activation'] == 'tanh':
+            ao = np.tanh(ho)
+
+        return ao
 
 def bit_decoding(n, signed):
     global ga_config
 
-    n=n.astype('int8')
+    n = n.astype('int8')
     d = 0
     if signed:
         sign = np.sign(0.5 - n[0])
@@ -63,10 +95,6 @@ def generate_network(genes):
     output_size = ga_config['output_size']
 
     neurons = neurons_number_calc(genes[:nn_n_gen])
-    dummy_in = [0 for i in range(ga_config['input_size'])]
-    dummy_out = [0 for i in range(ga_config['output_size'])]
-    ga_mlp = MLP(hidden_layer_sizes=[neurons], activation='logistic')  # Generate the network model
-    ga_mlp.partial_fit(np.array(dummy_in).reshape(1, -1), np.array(dummy_out).reshape(1, -1))  # Start architecture
 
     ''' MLP weights/bias distribution 
     (input, nn_n) -> in-hl w
@@ -78,25 +106,27 @@ def generate_network(genes):
     # Parse weights
     if ga_config['genetic_model']:
         g = weights_number_calc(genes[nn_n_gen:nn_n_gen + input_size * neurons * w_n_gen])
-        ga_mlp.coefs_[0] = np.array(g).reshape(-1, neurons)
+        coefs_0 = np.array(g).reshape(-1, neurons)
         g = weights_number_calc(
             genes[nn_n_gen + input_size * max_neurons * w_n_gen:
                   nn_n_gen + (input_size * max_neurons + neurons) * w_n_gen])
-        ga_mlp.intercepts_[0] = np.array(g)
+        intercepts_0 = np.array(g)
         g = weights_number_calc(
             genes[nn_n_gen + (input_size + 1) * max_neurons * w_n_gen:
                   nn_n_gen + ((input_size + 1) * max_neurons + output_size*neurons) * w_n_gen])
-        ga_mlp.coefs_[1] = np.array(g).reshape(neurons, -1)
+        coefs_1 = np.array(g).reshape(neurons, -1)
         g = weights_number_calc(genes[-w_n_gen:])
-        ga_mlp.intercepts_[1] = np.array(g)
+        intercepts_1 = np.array(g)
 
     else:
-        ga_mlp.coefs_[0] = np.array(genes[nn_n_gen:nn_n_gen + input_size * neurons]).reshape(-1, neurons)
-        ga_mlp.intercepts_[0] = np.array(genes[nn_n_gen + input_size * max_neurons:nn_n_gen +
+        coefs_0 = np.array(genes[nn_n_gen:nn_n_gen + input_size * neurons]).reshape(-1, neurons)
+        intercepts_0 = np.array(genes[nn_n_gen + input_size * max_neurons:nn_n_gen +
                                                input_size * max_neurons + neurons])
-        ga_mlp.coefs_[1] = np.array(genes[nn_n_gen + (input_size+1) * max_neurons:
-                                          nn_n_gen + (input_size+1) * max_neurons + output_size*neurons]).reshape(neurons, -1)
-        ga_mlp.intercepts_[1] = np.array(genes[-output_size:])
+        coefs_1 = np.array(genes[nn_n_gen + (input_size+1) * max_neurons:nn_n_gen +
+                            (input_size+1) * max_neurons + output_size*neurons]).reshape(neurons, -1)
+        intercepts_1 = np.array(genes[-output_size:])
+
+    ga_mlp = MLP(coefs_0, intercepts_0, coefs_1, intercepts_1)
 
     return ga_mlp
 
@@ -155,12 +185,10 @@ def draw_win(cars, road, world):     #x e y sono le coordinate della macchina mi
     for car in cars:
         car.draw(world)
 
-    text = STAT_FONT.render("Best Car Score: "+str(int(world.getScore())), 1, BLACK)
+    text = STAT_FONT.render("Best Car Fitness: "+str(int(world.getScore())), 1, BLACK)
     world.win.blit(text, (world.win_width-text.get_width() - 10, 10))
     text = STAT_FONT.render("Gen: "+str(GEN), 1, BLACK)
     world.win.blit(text, (world.win_width-text.get_width() - 10, 50))
-    text = STAT_FONT.render("Best Car Fitness: " + str(GEN), 1, BLACK)
-    world.win.blit(text, (world.win_width - text.get_width() - 10, 90))
 
     py.display.update()
     world.win.blit(bg, (0,0))       #blit dello sfondo subito dopo l'update così se ho delle draw prima della draw_win non vengono coperte dallo sfondo
@@ -204,7 +232,7 @@ def car_sim(population):
             y_old = car.y
             (x, y) = car.move(road, t)
 
-            if t > 10 and (car.detectCollision(road) or y > world.getBestCarPos()[1] + BAD_GENOME_TRESHOLD or y>y_old or car.vel < 0.1 or pop_fitness[i] >= 1+ga_config['max_fitness_stop_criteria']): #il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
+            if t > 10 and (car.detectCollision(road)  or y > world.getBestCarPos()[1] + BAD_GENOME_TRESHOLD or y>y_old or car.vel < 0.1 or pop_fitness[i] >= 1+ga_config['max_fitness_stop_criteria']): #il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
                 pop_fitness[i] -= 1
                 cars.pop(i)
             else:

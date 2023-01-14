@@ -1,42 +1,60 @@
+
+#=================== Neural Network ==================================
 input_size: 5
 output_size: 2
-
-bit_encoding_type: 'binary' # 'binary' 'gray'
 max_neurons: 16
-max_weight_value: 10.0
-min_weight_value: -10.0
+max_weight_value: 2.0
+min_weight_value: -2.0
+hidden_layer_activation: 'identity'  # 'logistic' 'identity' 'tanh'
+output_layer_activation: 'tanh'      # 'logistic' 'identity' 'tanh'
+
+#=================== Evolutionary / Genetic ==================================
 genetic_model: False
-
+bit_encoding_type: 'binary' # 'binary' 'gray'
 genetic_model_precision: 0.1
-
-num_generations: 10
+num_generations: 100
 max_fitness_stop_criteria: 500
 fitness_saturate_stop_criteria: 100
-
 sol_per_pop: 50
-
 num_parents_mating: 25
-
 parent_selection_type: 'tournament'  # 'tournament','rws','rank','random','sss', 'sus'
-
 keep_parents: 10
-
 k_tournament: 2
-
 keep_elitism: 10
 crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'
-
 crossover_probability: 1
 mutation_type: 'random' # 'random','swap','inversion','scramble'
-
 mutation_probability: 0.1
 mutation_by_replacement: False
-
 allow_duplicate_genes: True
-
 verbose: 1
-
 time_delay: 0
-
 save_solutions: True
 save_best_solutions: True
+
+#=================== General constants ==================================
+sim_fps: 100
+sim_win_w: 1000
+sim_win_h: 500
+speed_bonus: 0
+
+#=================== Car Specs ==================================
+sensors_visuals: True
+road_friction: -0.1
+max_vel: 10
+max_vel_reduction: 1
+acc_strength: 0.2
+turn_vel: 5
+sensor_max_range: 200
+sensors_first_beam_angle: -50
+sensors_beams_separation_angle: 35
+sensors_beams_number_angle: 4
+bad_genome_thershold: 200
+
+#=================== Road Specs ==================================
+road_visuals: False
+road_max_angle: 1
+road_max_deviation: 200
+road_spacing: 200
+road_points_per_segment: 15
+road_width: 200

@@ -1,43 +1,45 @@
 import pygame as py
+import yaml
 py.font.init()
 
+config_file_name = 'ga_vo.yaml'
+
+with open('configs/' + config_file_name, 'r') as f:
+    ga_config = yaml.safe_load(f)
 
 #=================== General constants ==================================
-FPS = 100
-WIN_WIDTH = 1000
-WIN_HEIGHT = 500
+FPS = ga_config['sim_fps']
+WIN_WIDTH = ga_config['sim_win_w']
+WIN_HEIGHT = ga_config['sim_win_h']
 STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-100)
-SCORE_VEL_MULTIPLIER = 0.00                     #bonus for faster cars
-BAD_GENOME_TRESHOLD = 200                       #if a car is too far behind it is removed
+SCORE_VEL_MULTIPLIER = ga_config['speed_bonus']
 
-INPUT_NEURONS = 5
-OUTPUT_NEURONS = 2
+INPUT_NEURONS = ga_config['input_size']
+OUTPUT_NEURONS = ga_config['output_size']
 
 #=================== Car Specs ==================================
 
-CAR_DBG = True
-FRICTION  = -0.1
-MAX_VEL = 10
-MAX_VEL_REDUCTION = 1              #at the start reduce maximum speed
-ACC_STRENGHT = 0.2
-BRAKE_STREGHT = 1
-TURN_VEL = 1
-SENSOR_DISTANCE = 200
-ACTIVATION_TRESHOLD = 0.5
-
-SENSORS_INITIAL_ANGLE = -50
-SENSORS_SEPARATION_ANGLE = 35
-SENSORS_NUMBER_BEAMS = 4
+CAR_DBG = ga_config['sensors_visuals']
+FRICTION = ga_config['road_friction']
+MAX_VEL = ga_config['max_vel']
+MAX_VEL_REDUCTION = ga_config['max_vel_reduction']
+ACC_STRENGHT = ga_config['acc_strength']
+TURN_VEL = ga_config['turn_vel']
+SENSOR_DISTANCE = ga_config['sensor_max_range']
+SENSORS_INITIAL_ANGLE = ga_config['sensors_first_beam_angle']
+SENSORS_SEPARATION_ANGLE = ga_config['sensors_beams_separation_angle']
+SENSORS_NUMBER_BEAMS = ga_config['sensors_beams_number_angle']
+BAD_GENOME_TRESHOLD = ga_config['bad_genome_thershold']
 
 #=================== Road Specs ==================================
 
-ROAD_DBG = False
-MAX_ANGLE = 1
-MAX_DEVIATION = 200
-SPACING = 200
-NUM_POINTS = 15                #number of points for each segment
+ROAD_DBG = ga_config['road_visuals']
+MAX_ANGLE = ga_config['road_max_angle']
+MAX_DEVIATION = ga_config['road_max_deviation']
+SPACING = ga_config['road_spacing']
+NUM_POINTS = ga_config['road_points_per_segment']
 SAFE_SPACE = SPACING + 50       #buffer space above the screen
-ROAD_WIDTH = 200
+ROAD_WIDTH = ga_config['road_width']
 
 #=================== Display and Colors ==================================
 
@@ -61,8 +63,8 @@ BLUE = (0,0,255)
 BLUE_PALE = (200, 200, 255)
 DARK_BLUE = (100, 100, 150)
 
-NODE_FONT = py.font.SysFont("comicsans", 15)
-STAT_FONT = py.font.SysFont("comicsans", 50)
+NODE_FONT = py.font.SysFont("arial", 15)
+STAT_FONT = py.font.SysFont("arial", 30)
 
 
 #=================== Constants for internal use ==================================

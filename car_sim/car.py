@@ -78,17 +78,6 @@ class Car:
     def move(self, road, t):
         self.acc = FRICTION
 
-        '''
-        if decodeCommand(self.commands, ACC):
-            self.acc = ACC_STRENGHT
-        if decodeCommand(self.commands, BRAKE):
-            self.acc = -BRAKE_STREGHT
-        if decodeCommand(self.commands, TURN_LEFT):
-            self.rot -= TURN_VEL
-        if decodeCommand(self.commands, TURN_RIGHT):
-            self.rot += TURN_VEL
-        '''
-
         self.acc = ACC_STRENGHT*self.commands[ACC_BRAKE]
         self.rot += TURN_VEL*self.commands[TURN]
 
