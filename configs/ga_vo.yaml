@@ -1,4 +1,7 @@
 
+load_file_name: 'ga_v0'  # Use None to run simulations
+simulation_save_file: 'ga_v0' # Use None for not saving
+
 #=================== Neural Network ==================================
 input_size: 5
 output_size: 2
@@ -9,22 +12,22 @@ hidden_layer_activation: 'identity'  # 'logistic' 'identity' 'tanh'
 output_layer_activation: 'tanh'      # 'logistic' 'identity' 'tanh'
 
 #=================== Evolutionary / Genetic ==================================
-genetic_model: False
+genetic_model: True
 bit_encoding_type: 'binary' # 'binary' 'gray'
 genetic_model_precision: 0.1
 num_generations: 100
-max_fitness_stop_criteria: 500
-fitness_saturate_stop_criteria: 100
+max_fitness_stop_criteria: 1000
+fitness_saturate_stop_criteria: 10
 sol_per_pop: 50
 num_parents_mating: 25
-parent_selection_type: 'tournament'  # 'tournament','rws','rank','random','sss', 'sus'
-keep_parents: 10
+parent_selection_type: 'rws'  # 'tournament','rws','rank','random','sss', 'sus'
+keep_parents: 5
 k_tournament: 2
 keep_elitism: 10
 crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'
 crossover_probability: 1
 mutation_type: 'random' # 'random','swap','inversion','scramble'
-mutation_probability: 0.1
+mutation_probability: 0.01
 mutation_by_replacement: False
 allow_duplicate_genes: True
 verbose: 1
@@ -50,11 +53,12 @@ sensors_first_beam_angle: -50
 sensors_beams_separation_angle: 35
 sensors_beams_number_angle: 4
 bad_genome_thershold: 200
+max_fitness_kill: 500
 
 #=================== Road Specs ==================================
 road_visuals: False
-road_max_angle: 1
-road_max_deviation: 200
+road_max_angle: 0
+road_max_deviation: 300
 road_spacing: 200
-road_points_per_segment: 15
+road_points_per_segment: 50
 road_width: 200

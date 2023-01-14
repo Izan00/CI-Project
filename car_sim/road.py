@@ -57,6 +57,10 @@ class Road:
         p1 = self.ctrl_points[getPoint(index, self.num_ctrl_points)]
         p2 = self.ctrl_points[getPoint(index+1, self.num_ctrl_points)]
 
+        self.centerPointsOld = self.centerPoints
+        self.pointsLeftOld = self.pointsLeft
+        self.pointsRightOld = self.pointsRight
+
         #define p2
         seed()
         p2.co(p1.x + (random()-0.5)*MAX_DEVIATION, p1.y-SPACING)
@@ -82,6 +86,12 @@ class Road:
 
         self.last_ctrl_point = getPoint(self.last_ctrl_point+1, self.num_ctrl_points)
         self.bottomPointIndex = self.next_point
+
+        #print(len(self.centerPoints))
+        #print((self.centerPointsOld))
+        #self.centerPoints = self.centerPointsOld+self.centerPoints
+        #self.pointsLeft = self.pointsLeftOld + self.pointsLeft
+        #self.pointsRight = self.pointsRightOld + self.pointsRight
 
     def update(self, world):
         if world.getScreenCoords(0, self.ctrl_points[self.last_ctrl_point].y)[1] > -SAFE_SPACE:

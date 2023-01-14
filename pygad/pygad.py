@@ -1484,6 +1484,9 @@ class GA:
         _, best_solution_fitness, _ = self.best_solution(pop_fitness=self.last_generation_fitness)
         self.best_solutions_fitness.append(best_solution_fitness)
         '''
+        if self.save_best_solutions:
+            self.best_solutions = self.best_solutions[1:]
+        self.best_solutions_fitness = self.best_solutions_fitness[1:]
 
         self.best_solution_generation = numpy.where(numpy.array(self.best_solutions_fitness) == numpy.max(numpy.array(self.best_solutions_fitness)))[0][0]
         # After the run() method completes, the run_completed flag is changed from False to True.

@@ -232,7 +232,8 @@ def car_sim(population):
             y_old = car.y
             (x, y) = car.move(road, t)
 
-            if t > 10 and (car.detectCollision(road)  or y > world.getBestCarPos()[1] + BAD_GENOME_TRESHOLD or y>y_old or car.vel < 0.1 or pop_fitness[i] >= 1+ga_config['max_fitness_stop_criteria']): #il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
+            if t > 10 and (car.detectCollision(road) or y > y_old or car.vel < 0.1 or pop_fitness[i] >= 1 + ga_config['max_fitness_kill']):  # il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
+            #if t > 10 and (car.detectCollision(road) or y > world.getBestCarPos()[1] + BAD_GENOME_TRESHOLD or y > y_old or car.vel < 0.1 or pop_fitness[i] >= 1 + ga_config['max_fitness_stop_criteria']): #il t serve a evitare di eliminare macchine nei primi tot frame (nei primi frame getCollision() restituisce sempre true)
                 pop_fitness[i] -= 1
                 cars.pop(i)
             else:
