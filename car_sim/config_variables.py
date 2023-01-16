@@ -11,7 +11,7 @@ with open('configs/' + config_file_name, 'r') as f:
 FPS = ga_config['sim_fps']
 WIN_WIDTH = ga_config['sim_win_w']
 WIN_HEIGHT = ga_config['sim_win_h']
-STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-100)
+STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-ga_config['sim_start_coord'])
 SCORE_VEL_MULTIPLIER = ga_config['speed_bonus']
 
 INPUT_NEURONS = ga_config['input_size']

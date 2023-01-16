@@ -1,6 +1,6 @@
 
-load_file_name: 'ga_v0'  # Use None to run simulations
-simulation_save_file: 'ga_v0' # Use None for not saving
+load_file_name: None  # Use None to run simulations
+simulation_save_file: 'ga_e_1' # Use None for not saving
 
 #=================== Neural Network ==================================
 input_size: 5
@@ -13,17 +13,17 @@ output_layer_activation: 'tanh'      # 'logistic' 'identity' 'tanh'
 
 #=================== Evolutionary / Genetic ==================================
 genetic_model: True
-bit_encoding_type: 'binary' # 'binary' 'gray'
+bit_encoding_type: 'gray' # 'binary' 'gray'
 genetic_model_precision: 0.1
 num_generations: 100
 max_fitness_stop_criteria: 1000
 fitness_saturate_stop_criteria: 10
-sol_per_pop: 50
-num_parents_mating: 25
+sol_per_pop: 10
+num_parents_mating: 4
 parent_selection_type: 'rws'  # 'tournament','rws','rank','random','sss', 'sus'
-keep_parents: 5
-k_tournament: 2
-keep_elitism: 10
+keep_parents: 0
+k_tournament: 4
+keep_elitism: 0
 crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'
 crossover_probability: 1
 mutation_type: 'random' # 'random','swap','inversion','scramble'
@@ -38,7 +38,8 @@ save_best_solutions: True
 #=================== General constants ==================================
 sim_fps: 100
 sim_win_w: 1000
-sim_win_h: 500
+sim_win_h: 1000
+sim_start_coord: 500
 speed_bonus: 0
 
 #=================== Car Specs ==================================
@@ -53,12 +54,12 @@ sensors_first_beam_angle: -50
 sensors_beams_separation_angle: 35
 sensors_beams_number_angle: 4
 bad_genome_thershold: 200
-max_fitness_kill: 500
+max_fitness_kill: 100
 
 #=================== Road Specs ==================================
 road_visuals: False
 road_max_angle: 0
-road_max_deviation: 300
+road_max_deviation: 0
 road_spacing: 200
 road_points_per_segment: 50
 road_width: 200

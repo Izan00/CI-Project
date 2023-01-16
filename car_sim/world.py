@@ -3,7 +3,7 @@ import pygame as py
 class World:
 
     initialPos = (0,0)
-    bestCarPos = (0,0)
+    bestCarPos = (0,)
 
     def __init__(self, starting_pos, world_width, world_height):
         self.initialPos = starting_pos
