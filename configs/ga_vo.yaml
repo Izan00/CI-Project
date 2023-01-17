@@ -1,6 +1,7 @@
 
-load_file_name: None  # Use None to run simulations
-simulation_save_file: 'ga_e_1' # Use None for not saving
+load_file_name: 'results/ga_e_'   # Use None to run simulations
+simulation_save_file: None # Use None for not saving
+multi_file: 32 # Use 0 to run simulations
 
 #=================== Neural Network ==================================
 input_size: 5
@@ -17,17 +18,17 @@ bit_encoding_type: 'gray' # 'binary' 'gray'
 genetic_model_precision: 0.1
 num_generations: 100
 max_fitness_stop_criteria: 1000
-fitness_saturate_stop_criteria: 10
+fitness_saturate_stop_criteria: 10000
 sol_per_pop: 10
 num_parents_mating: 4
 parent_selection_type: 'rws'  # 'tournament','rws','rank','random','sss', 'sus'
 keep_parents: 0
 k_tournament: 4
-keep_elitism: 0
+keep_elitism: 1
 crossover_type: 'uniform' # 'uniform','single_point','two_points','scattered'
 crossover_probability: 1
 mutation_type: 'random' # 'random','swap','inversion','scramble'
-mutation_probability: 0.01
+mutation_probability: 0.1
 mutation_by_replacement: False
 allow_duplicate_genes: True
 verbose: 1
