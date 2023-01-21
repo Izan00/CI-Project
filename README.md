@@ -18,8 +18,10 @@
     <li>
       <a href="#configuration">Configuration</a></li>
       <ul>
-        <li><a href="#neural network">Neural Network</a></li>
+        <li><a href="#experiment">Experiment</a></li>
+        <li><a href="#neural_network">Neural_Network</a></li>
         <li><a href="#genetic">Genetic</a></li>
+        <li><a href="#simulator">Simulator</a></li>
       <ul>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -72,7 +74,12 @@ To change the configuration file use the ```-c``` flag:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Configuration
-### Neural Network
+### Experiment    
+Load experimet file name or use ```None``` to run sumulation: ```load_file_name```
+Save experimet results file name or use ```None``` for discard: ```simulation_save_file```
+Load multiple experimetns file index (change ```load_file_name``` to file root name) use ```0``` to load only one: ```multi_file```
+    
+### Neural_Network
 * Number of input neurons: ```input_size```
 * Number of input neurons: ```output_size```
 * Maximum number of hidden neurons: ```max_neurons```
@@ -127,6 +134,12 @@ To change the configuration file use the ```-c``` flag:
 * Save all individuals in every generation: ```save_solutions```
 * Save best individuals in every generation: ```save_best_solutions```
 
+### Simulator
+Road maximum angle deviation: ```road_max_angle```
+Road maximum lateral deviation: ```road_max_deviation```
+Road deviation spacing: ```road_spacing```
+Road width: ```road_width```  
+    
 <!-- CONTACT -->
 ## Contact
 
