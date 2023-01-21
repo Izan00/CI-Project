@@ -59,8 +59,8 @@ max_fitness_kill: 100
 
 #=================== Road Specs ==================================
 road_visuals: False
-road_max_angle: 7
-road_max_deviation: 150
-road_spacing: 400
+road_max_angle: 0
+road_max_deviation: 0
+road_spacing: 200
 road_points_per_segment: 50
-road_width: 150
+road_width: 200
