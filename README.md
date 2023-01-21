@@ -50,7 +50,7 @@ To run the software you will need
    ```sh
    git clone https://github.com/Izan00/CI-Project.git
    ```
-2. Install the python packages
+2. Install the python packages from the [```requisites.txt```](requisites.txt) file
 
    ```pip3 install -r requisites.txt ```
 
@@ -60,7 +60,7 @@ To run the software you will need
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-To use the code with the default configuration ```default_config.yaml```, simply run the ```main.py``` file with:
+To use the code with the default configuration [```default_config.yaml```](/configs/default_config.yaml), simply run the [```main.py```](main.py) file with:
 
 ``` python3 main.py``` 
 
@@ -90,8 +90,8 @@ To change the configuration file use the ```-c``` flag:
 ### Genetic
 * Activate genetic model with binary genes: ```genetic_model```
 * Bit encoding type: ```bit_encoding_type``` 
-    * Gray: 'gray'
-    * Binary: 'binary'
+    * Gray: ```'gray'```
+    * Binary: ```'binary'```
 * Genetic model precison scaler: ```genetic_model_precision```   
 * Number of gneration before stop: ```num_generations```
 * Maximum fitness thershold stop criteria: ```max_fitness_stop_criteria```
