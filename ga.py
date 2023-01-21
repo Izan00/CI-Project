@@ -12,11 +12,6 @@ py.font.init()
 bg = py.Surface((WIN_WIDTH, WIN_HEIGHT))
 bg.fill(GRAY)
 
-'''
-----------------------------
- NN_nk | ... | NN_n0 | w00 | w01 | ...
-----------------------------
-'''
 
 class MLP:
     def __init__(self, coefs_h, intercepts_h, coefs_o, intercepts_o):
@@ -24,13 +19,6 @@ class MLP:
         self.intercepts_h = intercepts_h
         self.coefs_o = coefs_o
         self.intercepts_o = intercepts_o
-
-        ''' MLP weights/bias distribution 
-        (input, nn_n) -> in-hl w
-        (nn_n,)       -> hl b
-        (nn_n, out)   -> hl-out w
-        (out,)        -> out b
-        '''
 
     def predict(self, nn_input):
         global ga_config
@@ -97,6 +85,10 @@ def generate_network(genes):
     neurons = neurons_number_calc(genes[:nn_n_gen])
 
     ''' MLP weights/bias distribution 
+    ----------------------------
+     NN_nk | ... | NN_n0 | w00 | w01 | ...
+    ----------------------------
+    
     (input, nn_n) -> in-hl w
     (nn_n,)       -> hl b
     (nn_n, out)   -> hl-out w

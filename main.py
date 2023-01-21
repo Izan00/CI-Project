@@ -1,21 +1,32 @@
 import numpy as np
-import time
-from ga import generate_ga
-from pygad import pygad
+import sys
 import yaml
-from sklearn.exceptions import ConvergenceWarning
-from warnings import simplefilter
-from car_sim.config_variables import config_file_name
+from car_sim.config_variables import config_load
 from matplotlib import pyplot as plt
 from analysis import single_rep_analysis_plot,multi_rep_analysis_plot
+from pygad import pygad
 
-np.set_printoptions(linewidth=np.inf)
-simplefilter("ignore", category=ConvergenceWarning)
+#np.set_printoptions(linewidth=np.inf)
+np.set_printoptions(threshold=False)
 
 if __name__ == '__main__':
+
+    #default config file name
+    config_file_name = 'default_config.yaml'
+
+    # Arguments reading
+    args = sys.argv
+    for flag,arg in zip(args,args[1:]):
+        if flag == '-c':
+            config_file_name=arg
+
     # Config file reading
     with open('configs/' + config_file_name, 'r') as f:
         ga_config = yaml.safe_load(f)
+
+    # update config and load the genetic experiment library
+    config_load(ga_config)
+    from ga import generate_ga
 
     if ga_config['load_file_name'] == 'None':
         ga_instance = generate_ga(ga_config)
