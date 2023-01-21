@@ -15,6 +15,12 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#configuration">Configuration</a></li>
+      <ul>
+        <li><a href="#neural network">Neural Network</a></li>
+        <li><a href="#genetic">Genetic</a></li>
+      <ul>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -58,13 +64,68 @@ To use the code with the default configuration ```default_config.yaml```, simply
 
 ``` python3 main.py``` 
 
-To change the configuration file use the ```-c```flag:
+To change the configuration file use the ```-c``` flag:
 
 ``` python3 main.py -c new_config.yaml``` 
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Configuration
+### Neural Network
+* Number of input neurons: ```input_size```
+* Number of input neurons: ```output_size```
+* Maximum number of hidden neurons: ```max_neurons```
+* Maximum neuron weight value: ```max_weight_value```
+* Minimum neuron weight value: ```min_weight_value```
+* Hidden layer activation funtion: ```hidden_layer_activation```
+    * Identity: ```'identity' ```
+    * Logistic: ```'logistic'```
+    * Hyperbolic tangent: ```'tanh'```
+* Output layer activation funtion: ```output_layer_activation```
+    * Identity: ```'identity' ```
+    * Logistic: ```'logistic'```
+    * Hyperbolic tangent: ```'tanh'```
+    
+### Genetic
+* Activate genetic model with binary genes: ```genetic_model```
+* Bit encoding type: ```bit_encoding_type``` 
+    * Gray: 'gray'
+    * Binary: 'binary'
+* Genetic model precison scaler: ```genetic_model_precision```   
+* Number of gneration before stop: ```num_generations```
+* Maximum fitness thershold stop criteria: ```max_fitness_stop_criteria```
+* Fitness value saturation stop criteria: ```fitness_saturate_stop_criteria```
+* Number of individuals in the population: ```sol_per_pop```
+* Number of parest mating: ```num_parents_mating```
+* Parents selection method: ```parent_selection_type```
+    * Roulette Wheel: ```'rws'```
+    * Tournament: ```'tournament'```
+    * Rank: ```'rank'```
+    * Random: ```'random'```
+    * Steady State Slection: ```'sss'```
+    * Stochastic universal selection: ```'sus'```
+* Number of parents to keep: ```keep_parents```
+* Number of invidual cinfronted in the tournament: ```k_tournament```
+* Number of individuals to keep: ```keep_elitism```
+* Crossover method: ```crossover_type```
+    * Uniform: ```'uniform'```
+    * Single point: ```'single_point'```
+    * Two point: ```'two_points'```
+    * Scattered: ```'scattered'```
+* Crossove probability: ```crossover_probability```
+* Mutation_type: ```mutation_type```
+    * Random: ```'random'```
+    * Swap: ```'swap'```
+    * Inversion: ```'inversion'```
+    * Scramble: ```'scramble'```
+* Mutation probability: ```mutation_probability```
+* Replace a gene value with a mutated one: ```mutation_by_replacement```
+* Allow duplicate genes values: ```allow_duplicate_genes```
+* Generation information display rate: ```verbose```
+* Time delay between gerations: ```time_delay```
+* Save all individuals in every generation: ```save_solutions```
+* Save best individuals in every generation: ```save_best_solutions```
 
 <!-- CONTACT -->
 ## Contact
