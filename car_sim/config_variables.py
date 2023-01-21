@@ -1,45 +1,44 @@
 import pygame as py
-import yaml
 py.font.init()
 
-config_file_name = 'ga_vo.yaml'
+def config_load(ga_config):
+    global FPS,WIN_WIDTH,WIN_HEIGHT,STARTING_POS,SCORE_VEL_MULTIPLIER,INPUT_NEURONS,OUTPUT_NEURONS
+    global CAR_DBG,FRICTION,MAX_VEL,MAX_VEL_REDUCTION,ACC_STRENGHT,TURN_VEL,SENSOR_DISTANCE,SENSORS_INITIAL_ANGLE
+    global SENSORS_INITIAL_ANGLE,SENSORS_SEPARATION_ANGLE,SENSORS_NUMBER_BEAMS,BAD_GENOME_TRESHOLD
+    global ROAD_DBG,MAX_ANGLE,MAX_DEVIATION,SPACING,NUM_POINTS,SAFE_SPACE,ROAD_WIDTH
 
-with open('configs/' + config_file_name, 'r') as f:
-    ga_config = yaml.safe_load(f)
+    FPS = ga_config['sim_fps']
+    WIN_WIDTH = ga_config['sim_win_w']
+    WIN_HEIGHT = ga_config['sim_win_h']
+    STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-ga_config['sim_start_coord'])
+    SCORE_VEL_MULTIPLIER = ga_config['speed_bonus']
 
-#=================== General constants ==================================
-FPS = ga_config['sim_fps']
-WIN_WIDTH = ga_config['sim_win_w']
-WIN_HEIGHT = ga_config['sim_win_h']
-STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-ga_config['sim_start_coord'])
-SCORE_VEL_MULTIPLIER = ga_config['speed_bonus']
+    INPUT_NEURONS = ga_config['input_size']
+    OUTPUT_NEURONS = ga_config['output_size']
 
-INPUT_NEURONS = ga_config['input_size']
-OUTPUT_NEURONS = ga_config['output_size']
+    #=================== Car Specs ==================================
 
-#=================== Car Specs ==================================
+    CAR_DBG = ga_config['sensors_visuals']
+    FRICTION = ga_config['road_friction']
+    MAX_VEL = ga_config['max_vel']
+    MAX_VEL_REDUCTION = ga_config['max_vel_reduction']
+    ACC_STRENGHT = ga_config['acc_strength']
+    TURN_VEL = ga_config['turn_vel']
+    SENSOR_DISTANCE = ga_config['sensor_max_range']
+    SENSORS_INITIAL_ANGLE = ga_config['sensors_first_beam_angle']
+    SENSORS_SEPARATION_ANGLE = ga_config['sensors_beams_separation_angle']
+    SENSORS_NUMBER_BEAMS = ga_config['sensors_beams_number_angle']
+    BAD_GENOME_TRESHOLD = ga_config['bad_genome_thershold']
 
-CAR_DBG = ga_config['sensors_visuals']
-FRICTION = ga_config['road_friction']
-MAX_VEL = ga_config['max_vel']
-MAX_VEL_REDUCTION = ga_config['max_vel_reduction']
-ACC_STRENGHT = ga_config['acc_strength']
-TURN_VEL = ga_config['turn_vel']
-SENSOR_DISTANCE = ga_config['sensor_max_range']
-SENSORS_INITIAL_ANGLE = ga_config['sensors_first_beam_angle']
-SENSORS_SEPARATION_ANGLE = ga_config['sensors_beams_separation_angle']
-SENSORS_NUMBER_BEAMS = ga_config['sensors_beams_number_angle']
-BAD_GENOME_TRESHOLD = ga_config['bad_genome_thershold']
+    #=================== Road Specs ==================================
 
-#=================== Road Specs ==================================
-
-ROAD_DBG = ga_config['road_visuals']
-MAX_ANGLE = ga_config['road_max_angle']
-MAX_DEVIATION = ga_config['road_max_deviation']
-SPACING = ga_config['road_spacing']
-NUM_POINTS = ga_config['road_points_per_segment']
-SAFE_SPACE = SPACING + 50       #buffer space above the screen
-ROAD_WIDTH = ga_config['road_width']
+    ROAD_DBG = ga_config['road_visuals']
+    MAX_ANGLE = ga_config['road_max_angle']
+    MAX_DEVIATION = ga_config['road_max_deviation']
+    SPACING = ga_config['road_spacing']
+    NUM_POINTS = ga_config['road_points_per_segment']
+    SAFE_SPACE = SPACING + 50       #buffer space above the screen
+    ROAD_WIDTH = ga_config['road_width']
 
 #=================== Display and Colors ==================================
 
