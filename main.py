@@ -37,6 +37,9 @@ if __name__ == '__main__':
         for i in range(1,ga_config['multi_file']+1):
             load_file_name = ga_config['load_file_name']+str(i)
             ga_instance = pygad.load(filename=load_file_name)
+            #single_rep_analysis_plot(ga_instance)
+            #plt.savefig(load_file_name + '.png')
+            #plt.close('all')
             ga_instances.append(ga_instance)
         multi_rep_analysis_plot(ga_instances, ga_config)
         plt.savefig(ga_config['load_file_name'] + 'multi.png')
