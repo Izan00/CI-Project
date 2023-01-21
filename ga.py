@@ -40,7 +40,7 @@ class MLP:
 
         return ao
 
-def bit_decoding(n, signed):
+def bit_decoding(n, signed, bit_encoding):
     global ga_config
 
     n = n.astype('int8')
@@ -50,9 +50,9 @@ def bit_decoding(n, signed):
         n = n[1:]
     else:
         sign = 1
-    if ga_config['bit_encoding_type'] == 'binary':
+    if bit_encoding == 'binary':
         d = n.dot(2 ** np.arange(n.size)[::-1])
-    elif ga_config['bit_encoding_type'] == 'gray':
+    elif bit_encoding == 'gray':
         d = int(''.join(map(str,n.tolist())), 2)
         m = d >> 1
         while m:
@@ -61,16 +61,16 @@ def bit_decoding(n, signed):
     return sign*d
 
 
-def neurons_number_calc(bits):
-    return bit_decoding(bits, False) + 1
+def neurons_number_calc(bits,bit_encoding):
+    return bit_decoding(bits, False,bit_encoding) + 1
 
 
 def weights_number_calc(genes):  # genetic mode (binary -> decimal)
     global ga_config, w_n_gen
-
+    bit_encoding=ga_config['bit_encoding_type']
     weights_temp = []
     for i in range(0, len(genes), w_n_gen):
-        w = bit_decoding(genes[i + 1:i + w_n_gen], True) * ga_config['genetic_model_precision']
+        w = bit_decoding(genes[i + 1:i + w_n_gen], True, bit_encoding) * ga_config['genetic_model_precision']
         weights_temp.append(w)
     return weights_temp
 
@@ -82,7 +82,7 @@ def generate_network(genes):
     input_size = ga_config['input_size']
     output_size = ga_config['output_size']
 
-    neurons = neurons_number_calc(genes[:nn_n_gen])
+    neurons = neurons_number_calc(genes[:nn_n_gen], ga_config['bit_encoding_type'])
 
     ''' MLP weights/bias distribution 
     ----------------------------

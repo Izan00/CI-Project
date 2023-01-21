@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from ga import neurons_number_calc
+import math
 
-
-def exrtract_fitness_data(ga_instance):
+def exrtract_fitness_data(ga_instance,ga_config):
     # ga_instance.plot_fitness()
     solutions = np.array(ga_instance.solutions)
     solutions = np.reshape(solutions, (ga_instance.num_generations, -1, solutions.shape[1]))
@@ -22,18 +23,23 @@ def exrtract_fitness_data(ga_instance):
     solutions_fitness = np.reshape(solutions_fitness, (ga_instance.num_generations, -1))
     solutions_fitness_mean = np.mean(solutions_fitness, axis=1)
 
-    return solutions_fitness, solutions_fitness_mean, best_solution_fitness, solution_variance
+    nn_n_gen = int(math.log(ga_config['max_neurons'], 2))
+    best_solutions_neurons=[]
+    for instance in best_solution:
+        best_solutions_neurons.append(neurons_number_calc(instance[:nn_n_gen],ga_config['bit_encoding_type']))
 
-def single_rep_analysis_plot(ga_instance):
+    return solutions_fitness, solutions_fitness_mean, best_solution_fitness, solution_variance, best_solutions_neurons
 
-    solutions_fitness, solutions_fitness_mean, best_solution_fitness, solution_variance = exrtract_fitness_data(ga_instance)
+
+def single_rep_analysis_plot(ga_instance, ga_config):
+    solutions_fitness, solutions_fitness_mean, best_solution_fitness, solution_variance, best_solutions_neurons = exrtract_fitness_data(ga_instance, ga_config)
 
     x = [i for i in range(1, ga_instance.num_generations+1)]
     x_ticks = [i for i in range(1,ga_instance.num_generations+1, 5)]
     if ga_instance.num_generations > 100:
-        fig, ax = plt.subplots(3, 1, figsize=(18, 6), constrained_layout=True)
+        fig, ax = plt.subplots(4, 1, figsize=(18, 8), constrained_layout=True)
     else:
-        fig, ax = plt.subplots(3, 1, figsize=(12, 6), constrained_layout=True)
+        fig, ax = plt.subplots(4, 1, figsize=(12, 8), constrained_layout=True)
     # fig.suptitle('a')
     ax[0].scatter(x, solutions_fitness_mean, marker='+', c='#1f77b4', s=60)
     ax[0].scatter(x, best_solution_fitness, marker='1', c='#ff7f0e', s=60)
@@ -59,6 +65,17 @@ def single_rep_analysis_plot(ga_instance):
     ax[2].grid(alpha=0.7, linestyle='-')
     ax[2].set_xticks(x_ticks)
 
+    n_ticks = [i for i in range(1, ga_config['max_neurons']+1, 3)]
+    ax[3].scatter(x, best_solutions_neurons, marker='+', c='#1f77b4', s=60)
+    ax[3].set_title('Number of hidden neurons of best individuals')
+    ax[3].set_ylabel('Neurons')
+    ax[3].set_xlabel('Generation')
+    ax[3].grid(alpha=0.7, linestyle='-')
+    ax[3].set_xticks(x_ticks)
+    ax[3].set_yticks(n_ticks)
+    ax[3].set_ylim(0,ga_config['max_neurons'])
+
+
 def multi_rep_analysis_plot(ga_instances, ga_config):
     highest_fitness_achievement = []
     highest_fitness_achievement_null = []
@@ -78,7 +95,7 @@ def multi_rep_analysis_plot(ga_instances, ga_config):
     x = [i for i in range(1,len(highest_fitness_achievement)+1)]
     x_ticks = [i for i in range(1, len(highest_fitness_achievement)+1, 2)]
 
-    fig, ax = plt.subplots(1, 1, figsize=(8, 4), constrained_layout=True)
+    fig, ax = plt.subplots(1, 1, figsize=(8, 3), constrained_layout=True)
     ax.scatter(x, highest_fitness_achievement, marker='+', c='#1f77b4', s=80)
     ax.scatter(x, highest_fitness_achievement_null, marker='+', c='#ff7f0e', s=80)
     ax.set_title('Max fitness achievement')

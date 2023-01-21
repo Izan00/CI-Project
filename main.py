@@ -3,7 +3,6 @@ import sys
 import yaml
 from car_sim.config_variables import config_load
 from matplotlib import pyplot as plt
-from analysis import single_rep_analysis_plot,multi_rep_analysis_plot
 from pygad import pygad
 
 #np.set_printoptions(linewidth=np.inf)
@@ -27,6 +26,7 @@ if __name__ == '__main__':
     # update config and load the genetic experiment library
     config_load(ga_config)
     from ga import generate_ga
+    from analysis import single_rep_analysis_plot, multi_rep_analysis_plot
 
     if ga_config['load_file_name'] == 'None':
         ga_instance = generate_ga(ga_config)
@@ -35,12 +35,12 @@ if __name__ == '__main__':
         if not ga_config['simulation_save_file'] == 'None':
             save_file_name = ga_config['simulation_save_file']
             ga_instance.save(filename=save_file_name)
-        single_rep_analysis_plot(ga_instance)
+        single_rep_analysis_plot(ga_instance, ga_config)
 
     elif ga_config['multi_file'] == 0:
         load_file_name = ga_config['load_file_name']
         ga_instance = pygad.load(filename=load_file_name)
-        single_rep_analysis_plot(ga_instance)
+        single_rep_analysis_plot(ga_instance, ga_config)
         plt.savefig(ga_config['load_file_name'] + '.png')
 
     else:
@@ -48,7 +48,7 @@ if __name__ == '__main__':
         for i in range(1,ga_config['multi_file']+1):
             load_file_name = ga_config['load_file_name']+str(i)
             ga_instance = pygad.load(filename=load_file_name)
-            #single_rep_analysis_plot(ga_instance)
+            #single_rep_analysis_plot(ga_instance, ga_config)
             #plt.savefig(load_file_name + '.png')
             #plt.close('all')
             ga_instances.append(ga_instance)
