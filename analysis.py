@@ -28,10 +28,12 @@ def single_rep_analysis_plot(ga_instance):
 
     solutions_fitness, solutions_fitness_mean, best_solution_fitness, solution_variance = exrtract_fitness_data(ga_instance)
 
-    x = [i for i in range(1,ga_instance.num_generations+1)]
-    x_ticks = [i for i in range(1,ga_instance.num_generations+1,5)]
-    #print(solutions_fitness.shape)
-    fig, ax = plt.subplots(3, 1, figsize=(12, 6), constrained_layout=True)
+    x = [i for i in range(1, ga_instance.num_generations+1)]
+    x_ticks = [i for i in range(1,ga_instance.num_generations+1, 5)]
+    if ga_instance.num_generations > 100:
+        fig, ax = plt.subplots(3, 1, figsize=(18, 6), constrained_layout=True)
+    else:
+        fig, ax = plt.subplots(3, 1, figsize=(12, 6), constrained_layout=True)
     # fig.suptitle('a')
     ax[0].scatter(x, solutions_fitness_mean, marker='+', c='#1f77b4', s=60)
     ax[0].scatter(x, best_solution_fitness, marker='1', c='#ff7f0e', s=60)

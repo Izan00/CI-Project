@@ -1,7 +1,7 @@
 
-load_file_name: 'results/ga_m_'   # Use None to run simulations
+load_file_name: 'results/ga_h_17'   # Use None to run simulations
 simulation_save_file: None # Use None for not saving
-multi_file: 32 # Use 0 to run simulations
+multi_file: 0 # Use 0 to run simulations
 
 #=================== Neural Network ==================================
 input_size: 5
