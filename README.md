@@ -39,9 +39,9 @@ This project trains a Neural Network with Gentic algorithms to achive autonomus 
 
 <!-- GETTING STARTED -->
 ## Getting Started
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple steps.
 
-### Prerequisites
+### Prequisites
 To run the software you will need
 * python3 environment
 * pip3
