@@ -22,7 +22,7 @@
         <li><a href="#neural_network">Neural_Network</a></li>
         <li><a href="#genetic">Genetic</a></li>
         <li><a href="#simulator">Simulator</a></li>
-      <ul>
+      </ul>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
@@ -30,7 +30,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-This project trains a Neural Network with Gentic algorithms to achive autonomus driving capabilites using a car simulator.
+This project trains a Neural Network with Genetic algorithms to achive autonomus driving capabilites using a car simulator.
 
 <img src="imgs/mlp.png" alt="drawing" height="300"/><img src="imgs/car.png" alt="drawing" height="300"/><img src="imgs/car_steering2.png" alt="drawing" height="300"/>
 
@@ -75,17 +75,17 @@ To change the configuration file use the ```-c``` flag:
 
 ## Configuration
 ### Experiment    
-Load experimet file name or use ```None``` to run sumulation: ```load_file_name```
-Save experimet results file name or use ```None``` for discard: ```simulation_save_file```
-Load multiple experimetns file index (change ```load_file_name``` to file root name) use ```0``` to load only one: ```multi_file```
+* Load experiment file name or use ```None``` to run simulation: ```load_file_name```
+* Save experiment results file name or use ```None``` for discard: ```simulation_save_file```
+* Load multiple experiments file index (change ```load_file_name``` to file root name) use ```0``` to load only one: ```multi_file```
     
 ### Neural_Network
 * Number of input neurons: ```input_size```
-* Number of input neurons: ```output_size```
+* Number of output neurons: ```output_size```
 * Maximum number of hidden neurons: ```max_neurons```
 * Maximum neuron weight value: ```max_weight_value```
 * Minimum neuron weight value: ```min_weight_value```
-* Hidden layer activation funtion: ```hidden_layer_activation```
+* Hidden layer activation function: ```hidden_layer_activation```
     * Identity: ```'identity' ```
     * Logistic: ```'logistic'```
     * Hyperbolic tangent: ```'tanh'```
@@ -99,28 +99,28 @@ Load multiple experimetns file index (change ```load_file_name``` to file root n
 * Bit encoding type: ```bit_encoding_type``` 
     * Gray: ```'gray'```
     * Binary: ```'binary'```
-* Genetic model precison scaler: ```genetic_model_precision```   
-* Number of gneration before stop: ```num_generations```
-* Maximum fitness thershold stop criteria: ```max_fitness_stop_criteria```
+* Genetic model precision scaler: ```genetic_model_precision```   
+* Number of generation before stop: ```num_generations```
+* Maximum fitness threshold stop criteria: ```max_fitness_stop_criteria```
 * Fitness value saturation stop criteria: ```fitness_saturate_stop_criteria```
 * Number of individuals in the population: ```sol_per_pop```
-* Number of parest mating: ```num_parents_mating```
+* Number of parents mating: ```num_parents_mating```
 * Parents selection method: ```parent_selection_type```
     * Roulette Wheel: ```'rws'```
     * Tournament: ```'tournament'```
     * Rank: ```'rank'```
     * Random: ```'random'```
-    * Steady State Slection: ```'sss'```
+    * Steady State Selection: ```'sss'```
     * Stochastic universal selection: ```'sus'```
 * Number of parents to keep: ```keep_parents```
-* Number of invidual cinfronted in the tournament: ```k_tournament```
+* Number of individuals confronted in the tournament: ```k_tournament```
 * Number of individuals to keep: ```keep_elitism```
 * Crossover method: ```crossover_type```
     * Uniform: ```'uniform'```
     * Single point: ```'single_point'```
     * Two point: ```'two_points'```
     * Scattered: ```'scattered'```
-* Crossove probability: ```crossover_probability```
+* Crossover probability: ```crossover_probability```
 * Mutation_type: ```mutation_type```
     * Random: ```'random'```
     * Swap: ```'swap'```
@@ -130,7 +130,7 @@ Load multiple experimetns file index (change ```load_file_name``` to file root n
 * Replace a gene value with a mutated one: ```mutation_by_replacement```
 * Allow duplicate genes values: ```allow_duplicate_genes```
 * Generation information display rate: ```verbose```
-* Time delay between gerations: ```time_delay```
+* Time delay between generations: ```time_delay```
 * Save all individuals in every generation: ```save_solutions```
 * Save best individuals in every generation: ```save_best_solutions```
 
