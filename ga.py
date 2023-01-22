@@ -61,8 +61,8 @@ def bit_decoding(n, signed, bit_encoding):
     return sign*d
 
 
-def neurons_number_calc(bits,bit_encoding):
-    return bit_decoding(bits, False,bit_encoding) + 1
+def neurons_number_calc(bits, bit_encoding):
+    return bit_decoding(bits, False, bit_encoding) + 1
 
 
 def weights_number_calc(genes):  # genetic mode (binary -> decimal)
@@ -157,7 +157,7 @@ def callback_generation(ga_instance):
     global ga_config, nn_n_gen, last_fitness, road, GEN
 
     if ga_instance.generations_completed % ga_config['verbose'] == 0:
-        neurons = neurons_number_calc(ga_instance.best_solutions[-1][:nn_n_gen])
+        neurons = neurons_number_calc(ga_instance.best_solutions[-1][:nn_n_gen], ga_config['bit_encoding_type'])
         print('Generation {generation}'.format(generation=ga_instance.generations_completed))
         print('Last gen parents:        {par_id}'.format(par_id=ga_instance.last_generation_parents_indices))
         print('Best fitness:            {fitness}'.format(fitness=round(ga_instance.best_solutions_fitness[-1],2)))
